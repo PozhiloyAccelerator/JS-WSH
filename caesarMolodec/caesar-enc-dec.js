@@ -2,7 +2,7 @@
 //cscript caesar-enc-dec.js /encode или /decode "текст" "число сдвига"
 //у нас три основные проюлемы: 1) проверка, что элемент строки из английского алфавита
 //2) считывание строки из файла, надо чтобы он нормально работал со считанной строкой
-//3) он почему - то неправильно шифрует. пример: aaabbb, 1 должно быть: bbbccc результат: bbblll
+//3) он почему - то неправильно шифрует. пример: aaabbb 1 должно быть: bbbccc результат: bbblll
 
 var args = WScript.Arguments;
 var caesarCode = function(str, offset) {   //offset - сдвиг по алфавиту
@@ -11,16 +11,18 @@ var caesarCode = function(str, offset) {   //offset - сдвиг по алфав
   }
   var result = "";      //ответ
   for (var i = 0; i < str.length; i++) {    //идем по элементам строки
-    var encodeSymbol = str[i]; //элемент строки
+    var encodeSymbol = str.charAt(i); //элемент строки
+    WScript.Echo(encodeSymbol);
     // английский алфавит, тут должна быть проверка на английский алфавит, а в декоде можно убрать
     var code = str.charCodeAt(i);   //получаем код
-    WScript.Echo(code);
+    if (encodeSymbol.match(/[a-z]/i)) {
       if (code >= 65 && code <= 90) {  // заглавные буквы
         encodeSymbol = String.fromCharCode(((code - 65 + offset) % 26) + 65);
       }
       else if (code >= 97 && code <= 122) { // строчные буквы
         encodeSymbol = String.fromCharCode(((code - 97 + offset) % 26) + 97);
       }
+    }
     result += encodeSymbol;   // записываем зашифрованный символ в ответ
   }
   return result;
@@ -32,10 +34,17 @@ if (args.length === 0) { //если не задано аргументов
 else {
   if (args(0) === "/encode") {
     var p = new ActiveXObject("Scripting.FileSystemObject");
-    var f = p.OpenTextFile("output.txt", 2, true, 0); //выводим ответ
-    f.Write(caesarCode(args(1), args(2)));
+    if (!p.FileExists("input.txt")) { //есть ли файл ввода
+      WScript.Echo("no input file!");
+      WScript.Quit();
+    }
+    var f = p.OpenTextFile("input.txt", 1, true, 0);
+    var s = f.ReadAll();
     f.Close();
   }
+  var f = p.OpenTextFile("output.txt", 2, true, 0); //выводим ответ
+  f.Write(caesarCode(s, args(1)));
+  f.Close();
   //ДЕКОДИРОВКА
   if (args(0) === "/decode") {
     var p = new ActiveXObject("Scripting.FileSystemObject");
@@ -72,6 +81,7 @@ else {
     WScript.Echo("wrong argument!");
   }
 }
+
 
 /*
 var args = WScript.Arguments;
