@@ -1,5 +1,5 @@
 WScript.Echo("welcome to interpreter! All documentaion in vm_documentation.txt");
-if (WScript.Arguments.Length === 0) {
+if (WScript.Arguments.length === 0) {
     WScript.Echo("please set your program's filename in an argument!"); //если не задан файл программы
 }
 else {
