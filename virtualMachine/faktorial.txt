@@ -1,0 +1,21 @@
+0 0 1 0 1 NotExists 170 TooLongForMe PleaseInputADigit
+output   8 
+input 0 //Ввод значения
+less 0 3 1 //Если отрицательное
+less 6 0 5 // Если больше 170
+equal 0 3 2 //Если 0
+link 3 //Начало цикла
+plus 4 1 1
+multiply 2 1 2
+less 1 0 3 //Конец цикла
+output 2
+quit
+link 1
+output 5
+quit 
+link 2
+output 2
+quit
+link 5
+output 7
+quit
