@@ -1,5 +1,6 @@
 //%DebugArguments%=/hash /time
 //cscript search-substring.js /brutforce или /hash /time
+var args = WScript.Arguments;
 function equal(string, substring, position, i) {
     for (i = 0; i < substring.length; i++){
         if (string.charAt(position + i) !== substring.charAt(i)){
@@ -8,7 +9,7 @@ function equal(string, substring, position, i) {
     }
     return true;
 }
-if (WScript.Arguments.Length === 0) { //нет аргументов
+if (args.length === 0) { //нет аргументов
     WScript.Echo('wrong arguments!');
     WScript.Quit();
 }
@@ -26,7 +27,7 @@ if (WScript.Arguments(0) === '/brutforce') { //перебор грубой силой
     }
     var substring = p.OpenTextFile('substring.txt');
     substring = substring.ReadAll();
-    if (WScript.Arguments.Length >= 2 && WScript.Arguments(1) === '/time') { //если нужно считать время
+    if (WScript.Arguments.length >= 2 && WScript.Arguments(1) === '/time') { //если нужно считать время
         var howLongTakeToComplete = true;  //нужно время?
         var time = new Date();
         var executionTime = time.getTime() + time.getMilliseconds(); //время выполнения
@@ -68,7 +69,7 @@ else if (WScript.Arguments(0) === '/hash') { //хэш
     }
     var substring = p.OpenTextFile('substring.txt');
     substring = substring.ReadAll();
-    if (WScript.Arguments.Length >= 2 && WScript.Arguments(1) === '/time') { //нужно считать время
+    if (WScript.Arguments.length >= 2 && WScript.Arguments(1) === '/time') { //нужно считать время
         var howLongTakeToComplete = true;
         var time = new Date();
         if (checkingConvergence === true){
