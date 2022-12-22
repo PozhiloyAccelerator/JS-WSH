@@ -1,6 +1,6 @@
 //cscript huffman.js /encode или /decode /alphabet
 //проблема в том, что коды символов формируются неправильно + в кодировке появляется аски символ, но декодирует правильно
-//правильное формирование кодов можно реализовать переводом в десятичную систему счисления а потом в двоичную
+// сейчас там косяк с декодировкой, этот косяк в кодировке
 var args = WScript.Arguments;
 if (args.count() > 1 && args(1).indexOf('/alphabet') !== -1) { //проверка на аргументы
     var alphabetAndFrequencyNeed = true;
@@ -24,7 +24,7 @@ if (args(0) === '/encode') {
     while (!f.atEndOfStream)             //считываем пока не конец файла
         inp[inp.length] = f.ReadLine();
     f.Close();
-    var characterCode = new Array(), frequency = new Array(), alphabet = ''; //код символа, частота, алфавит
+    var characterCode = new Array(), frequency = new Array(), alphabet = ""; //код символа, частота, алфавит
     var attachedSymbol = new Array(); // символ, который был присоеденен на n-ном шаге
     for (j = 0; j < inp.length; j++) {
         for (var i = 0; i < inp[j].length; i++) { //заполняем алфавит, считаем частоту
@@ -49,12 +49,13 @@ if (args(0) === '/encode') {
         for (var i = tree.length - 1; i >= 0; i--) {
             for (var j = 0; j <= i; j++) { //сортировка по частоте
                 if (frequency[tree[j]] > frequency[tree[j + 1]]) {
-                    recurringSymbol = newTree[j];
+                    var recurringSymbol = newTree[j];
                     newTree[j] = newTree[j + 1];
                     newTree[j + 1] = recurringSymbol;
                 }
             }
-            frequency[newTree[1] + newTree[0]] = frequency[newTree[1]] + frequency[newTree[0]]; //склеиваем самые неповторяющиеся
+            //WScript.Echo(newTree[0]);   //
+            frequency[newTree[1] + newTree[0]] = frequency[newTree[1]] + frequency[newTree[0]]; //склеиваем самые неповторяющиеся, частота склеиваемого
             frequency.splice(newTree[0], 1);
             frequency.splice(newTree[1], 1);
             newTree[0] += newTree[1];
@@ -67,7 +68,7 @@ if (args(0) === '/encode') {
         characterCode[tree.charAt(0)] = '0';
     }
     while (tree.length > 1) { //заполняем коды символов
-        characterCode[attachedSymbol[attachedSymbol.length - 1]] = characterCode[attachedSymbol[attachedSymbol.length - 1]] + '0';
+        characterCode[attachedSymbol[attachedSymbol.length - 1]] = characterCode[attachedSymbol[attachedSymbol.length - 1]] + "0";
         var regex = new RegExp('[' + attachedSymbol[attachedSymbol.length - 1] + ']');
         tree = tree.replace(regex, ''); //удаляем символ, код которого уже создан
         for (var j = 0; j < tree.length; j++) {
@@ -76,14 +77,14 @@ if (args(0) === '/encode') {
         attachedSymbol.pop();
     }
     f = p.OpenTextFile('output.txt', 2, 1);
-    f.Write(inp.length + String.fromCharCode(1));
+    f.Write(inp.length + String.fromCharCode(95));
     var result = '';
     if (alphabetAndFrequencyNeed) {
         WScript.Echo('letterCodes:');
     }
     for (i = 0; i < alphabet.length; i++) {
-        f.Write(alphabet.charAt(i) + String.fromCharCode(1) + characterCode[alphabet.charAt(i)] + String.fromCharCode(1)); //выводим алфавит с кодами
-        if (alphabetAndFrequencyNeed) {
+        f.Write(String.fromCharCode(95) + characterCode[alphabet.charAt(i)] + String.fromCharCode(95));//
+        if (alphabetAndFrequencyNeed) {                           //выводим алфавит с кодами
             WScript.Echo(alphabet.charAt(i) + ': ' + characterCode[alphabet.charAt(i)]);
         }
     }
@@ -91,7 +92,7 @@ if (args(0) === '/encode') {
         for (i = 0; i < inp[j].length; i++) {
             result += characterCode[inp[j].charAt(i)];       //создаем строку вывода
         }
-        result += String.fromCharCode(1);
+        result += String.fromCharCode(95);
     }
     f.Write(result); // пишем
     f.Close();
@@ -106,7 +107,7 @@ else if (args(0) === '/decode') {
     }
     var f = p.OpenTextFile('output.txt');
     var t = p.OpenTextFile('outDecodeLine.txt', 2, 1);
-    inp = f.ReadAll().split(String.fromCharCode(1)); //получаем входной массив
+    inp = f.ReadAll().split(String.fromCharCode(95)); //получаем входной массив
     f.Close();
     for (var w = parseInt(inp[0]) + 1; w > 1; w--) { //каждая строчка
         var j = inp.length - w, answer = '', ip = 0; //счетчик, собранная декод. строка, ip
