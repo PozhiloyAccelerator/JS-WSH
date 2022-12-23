@@ -38,10 +38,10 @@ else {
     var f = p.OpenTextFile("input.txt", 1, true, 0);
     var s = f.ReadAll();
     f.Close();
-  }
   var f = p.OpenTextFile("output.txt", 2, true, 0); //выводим ответ
   f.Write(caesarCode(s, alphabetShift));
   f.Close();
+  }
   //ДЕКОДИРОВКА
   if (args(0) === "/decode") {
     var p = new ActiveXObject("Scripting.FileSystemObject");
@@ -57,21 +57,23 @@ else {
     var s = f.ReadAll();
     f.Close();
     var result = ""; //ответ
+    var alphabetShift = Number(args(1));
     for (var i = 0; i < s.length; i++) {    //идем по элементам закодированной строки
-      var decodeSymbol = s[i]; //элемент закодированной строки
-      if (decodeSymbol.match(/[a-z]/i)) {
-        var code = s.charCodeAt(i);   //получаем код закодированного символа
-        if (code >= 65 && code <= 90) {  // заглавные буквы
-          decodeSymbol = String.fromCharCode(((code - 65 - alphabetShift) % 26) + 65);
-        }
-        else if (code >= 97 && code <= 122) { // строчные буквы
-          decodeSymbol = String.fromCharCode(((code - 97 - alphabetShift) % 26) + 97);
-        }
+      var decodeSymbol = s.charAt(i); //элемент закодированной строки
+      var code = s.charCodeAt(i);   //получаем код закодированного символа
+      if (code >= 65 && code <= 90) {  // заглавные буквы
+        decodeSymbol = String.fromCharCode(((code - 65 - alphabetShift) % 26) + 65);
+      }
+      else if (code >= 97 && code <= 122) { // строчные буквы
+        decodeSymbol = String.fromCharCode(((code - 97 - alphabetShift) % 26) + 97);
       }
       result += decodeSymbol;   // записываем расшифрованный символ в ответ
     }
     var f = p.OpenTextFile("decodingOut.txt", 2, 1, 0); //выводим
     f.Write(result);
     f.Close();
+  }
+  else{
+    WScript.Echo("Wrong argument!")
   }
 }
