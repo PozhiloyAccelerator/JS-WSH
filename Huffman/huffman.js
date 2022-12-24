@@ -1,6 +1,6 @@
 //cscript huffman.js /encode или /decode /alphabet
-//проблема в том, что коды символов формируются неправильно + в кодировке появляется аски символ, но декодирует правильно
-// сейчас там косяк с декодировкой, этот косяк в кодировке
+//проблема в том, что коды символов формируются неправильно, но декодирует правильно
+
 var args = WScript.Arguments, separator = String.fromCharCode(95);
 if (args.count() > 1 && args(1).indexOf('/alphabet') !== -1) { //проверка на аргументы
     var alphabetAndFrequencyNeed = true;
