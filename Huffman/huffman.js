@@ -1,7 +1,7 @@
 //cscript huffman.js /encode или /decode /alphabet
 //проблема в том, что коды символов формируются неправильно + в кодировке появляется аски символ, но декодирует правильно
 // сейчас там косяк с декодировкой, этот косяк в кодировке
-var args = WScript.Arguments;
+var args = WScript.Arguments, separator = String.fromCharCode(95);
 if (args.count() > 1 && args(1).indexOf('/alphabet') !== -1) { //проверка на аргументы
     var alphabetAndFrequencyNeed = true;
 }
@@ -40,7 +40,7 @@ if (args(0) === '/encode') {
     }
     if (alphabetAndFrequencyNeed) {
         WScript.Echo('alphabet and frequencies:');
-        for (i = 0; i < alphabet.length; i++){
+        for (i = 0; i < alphabet.length; i++) {
             WScript.Echo(alphabet.charAt(i) + ': ' + frequency[alphabet.charAt(i)]);
         }
     }
@@ -68,7 +68,7 @@ if (args(0) === '/encode') {
         characterCode[tree.charAt(0)] = '0';
     }
     while (tree.length > 1) { //заполняем коды символов
-        characterCode[attachedSymbol[attachedSymbol.length - 1]] = characterCode[attachedSymbol[attachedSymbol.length - 1]] + "0";
+        characterCode[attachedSymbol[attachedSymbol.length - 1]] = characterCode[attachedSymbol[attachedSymbol.length - 1]] + '0';
         var regex = new RegExp('[' + attachedSymbol[attachedSymbol.length - 1] + ']');
         tree = tree.replace(regex, ''); //удаляем символ, код которого уже создан
         for (var j = 0; j < tree.length; j++) {
@@ -77,13 +77,13 @@ if (args(0) === '/encode') {
         attachedSymbol.pop();
     }
     f = p.OpenTextFile('output.txt', 2, 1);
-    f.Write(inp.length + String.fromCharCode(95));
+    f.Write(inp.length + separator);
     var result = '';
     if (alphabetAndFrequencyNeed) {
         WScript.Echo('letterCodes:');
     }
     for (i = 0; i < alphabet.length; i++) {
-        f.Write(String.fromCharCode(95) + characterCode[alphabet.charAt(i)] + String.fromCharCode(95));//
+        f.Write(alphabet.charAt(i) + separator + characterCode[alphabet.charAt(i)] + separator);//
         if (alphabetAndFrequencyNeed) {                           //выводим алфавит с кодами
             WScript.Echo(alphabet.charAt(i) + ': ' + characterCode[alphabet.charAt(i)]);
         }
@@ -92,12 +92,12 @@ if (args(0) === '/encode') {
         for (i = 0; i < inp[j].length; i++) {
             result += characterCode[inp[j].charAt(i)];       //создаем строку вывода
         }
-        result += String.fromCharCode(95);
+        result += separator;
     }
     f.Write(result); // пишем
     f.Close();
 }
-//декодировка
+//декодировкa
 else if (args(0) === '/decode') {
     var inp = new Array();
     var p = new ActiveXObject("Scripting.FileSystemObject");
@@ -107,7 +107,7 @@ else if (args(0) === '/decode') {
     }
     var f = p.OpenTextFile('output.txt');
     var t = p.OpenTextFile('outDecodeLine.txt', 2, 1);
-    inp = f.ReadAll().split(String.fromCharCode(95)); //получаем входной массив
+    inp = f.ReadAll().split(separator); //получаем входной массив
     f.Close();
     for (var w = parseInt(inp[0]) + 1; w > 1; w--) { //каждая строчка
         var j = inp.length - w, answer = '', ip = 0; //счетчик, собранная декод. строка, ip
