@@ -13,7 +13,7 @@ if (args.length === 0) { //нет аргументов
     WScript.Echo('wrong arguments!');
     WScript.Quit();
 }
-if (WScript.Arguments(0) === '/brutforce') { //перебор грубой силой
+if (args(0) === '/brutforce') { //перебор грубой силой
     var p = new ActiveXObject('Scripting.FileSystemObject');
     if (!p.FileExists('string.txt')) { //есть ли string.txt
         WScript.Echo('no string file!');
@@ -27,7 +27,7 @@ if (WScript.Arguments(0) === '/brutforce') { //перебор грубой силой
     }
     var substring = p.OpenTextFile('substring.txt');
     substring = substring.ReadAll();
-    if (WScript.Arguments.length >= 2 && WScript.Arguments(1) === '/time') { //если нужно считать время
+    if (args.length >= 2 && args(1) === '/time') { //если нужно считать время
         var howLongTakeToComplete = true;  //нужно время?
         var time = new Date();
         var executionTime = time.getTime() + time.getMilliseconds(); //время выполнения
@@ -55,7 +55,7 @@ if (WScript.Arguments(0) === '/brutforce') { //перебор грубой силой
         WScript.Echo('');
     }
 }
-else if (WScript.Arguments(0) === '/hash') { //хэш
+else if (args(0) === '/hash') { //хэш
     var p = new ActiveXObject('Scripting.FileSystemObject');
     if (!p.FileExists('string.txt')) {
         WScript.Echo('no string file!');
@@ -69,7 +69,7 @@ else if (WScript.Arguments(0) === '/hash') { //хэш
     }
     var substring = p.OpenTextFile('substring.txt');
     substring = substring.ReadAll();
-    if (WScript.Arguments.length >= 2 && WScript.Arguments(1) === '/time') { //нужно считать время
+    if (args.length >= 2 && args(1) === '/time') { //нужно считать время
         var howLongTakeToComplete = true;
         var time = new Date();
         if (checkingConvergence === true){
