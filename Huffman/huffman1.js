@@ -22,9 +22,9 @@ if (args(0) === '/encode') {
     f.close();
     var frequency = new Array(), alphabet = new Array(), characterCode = new Array(alphabet.length); //частота, алфавит, коды символов
     var alphabet = new Array();
-    for (var j = 0; j < str.length; j++) {
+    for (var j = 0; j < str.length; j++) {           //заполнили алфавит
         var symbol = str.charAt(j);
-        if (!alphabet[symbol]) {         //зполнили алфавит
+        if (!alphabet[symbol]) {
             alphabet[symbol] = 1;
         }
         else {
