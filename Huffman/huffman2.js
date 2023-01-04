@@ -20,15 +20,15 @@ if (args(0) === '/encode') {       //!
         }
     }
     var i = 0;
-    for (var key in alphabet) {            //заполнили массив частот и подготовились к заполнению кодов
-        frequency[i] = alphabet[key]; //сейчас до сих пор элементы алфавита сидят в индексах (надо не in a of)
+    for (var key in alphabetObject) {            //заполнили массив частот и подготовились к заполнению кодов
+        alphabet[i] = key;
+        frequency[i] = alphabetObject[key];
         characterCode[i] = "";
         i++;
     }
-    /*for (let e of alphabet){
-        WScript.Echo(e);
-    }*/
-
+    for (var y = 0; y < alphabet.length; y++) {
+        WScript.Echo(alphabet[y] + " " + frequency[y]);
+    }
     var copyAlphabet = alphabet.slice(0), copyFrequency = frequency.reverse();
     /*for (var y in copyAlphabet){             //!  of a не in
         console.log(y)
