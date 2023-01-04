@@ -1,16 +1,16 @@
-//cscript huffman1.js /encode или /decode /alphabet
+//cscript huffman1.js /encode РёР»Рё /decode /alphabet
 var args = WScript.Arguments;
-if (args.count() > 1 && args(1).indexOf('/alphabet') !== -1) { //проверка на аргументы
+if (args.count() > 1 && args(1).indexOf('/alphabet') !== -1) { //РїСЂРѕРІРµСЂРєР° РЅР° Р°СЂРіСѓРјРµРЅС‚С‹
     var alphabetAndFrequencyNeed = true;
 }
 else {
     var alphabetAndFrequencyNeed = false;
 }
-if (args.count() <= 0) {      //проверка на наличие аргументов
+if (args.count() <= 0) {      //РїСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ Р°СЂРіСѓРјРµРЅС‚РѕРІ
     WScript.Echo('wrong arguments!');
     WScript.Quit();
 }
-//кодировка
+//РєРѕРґРёСЂРѕРІРєР°
 if (args(0) === '/encode') {
     var p = new ActiveXObject("Scripting.FileSystemObject");
     if (!p.FileExists('input.txt')) {
@@ -20,11 +20,11 @@ if (args(0) === '/encode') {
     var f = p.OpenTextFile('input.txt');
     var str = f.ReadAll();
     f.close();
-    var frequency = new Array(), alphabet = new Array(), characterCode = new Array(alphabet.length); //частота, алфавит, коды символов
+    var frequency = new Array(), alphabet = new Array(), characterCode = new Array(alphabet.length); //С‡Р°СЃС‚РѕС‚Р°, Р°Р»С„Р°РІРёС‚, РєРѕРґС‹ СЃРёРјРІРѕР»РѕРІ
     var alphabet = new Array();
     for (var j = 0; j < str.length; j++) {
         var symbol = str.charAt(j);
-        if (!alphabet[symbol]) {         //зполнили алфавит
+        if (!alphabet[symbol]) {         //Р·РїРѕР»РЅРёР»Рё Р°Р»С„Р°РІРёС‚
             alphabet[symbol] = 1;
         }
         else {
@@ -32,7 +32,7 @@ if (args(0) === '/encode') {
         }
     }
     var i = 0;
-    for (var key in alphabet) {            //заполнили массив частот и подготовились к заполнению кодов
+    for (var key in alphabet) {            //Р·Р°РїРѕР»РЅРёР»Рё РјР°СЃСЃРёРІ С‡Р°СЃС‚РѕС‚ Рё РїРѕРґРіРѕС‚РѕРІРёР»РёСЃСЊ Рє Р·Р°РїРѕР»РЅРµРЅРёСЋ РєРѕРґРѕРІ
         frequency[i] = alphabet[key];
         characterCode[i] = "";
         i++;
@@ -47,7 +47,7 @@ if (args(0) === '/encode') {
     for (var y in copyAlphabet){
         WScript.Echo(y);
     }
-    while (copyAlphabet.length !== 2){    //начинаем заполнять массив кодов символов
+    while (copyAlphabet.length !== 2){    //РЅР°С‡РёРЅР°РµРј Р·Р°РїРѕР»РЅСЏС‚СЊ РјР°СЃСЃРёРІ РєРѕРґРѕРІ СЃРёРјРІРѕР»РѕРІ
         var orderOfNodesAndFrequency = 0, l = 1;
         for (l; l < copyAlphabet.length; l+=2){
             if (copyFrequency[l-1] <= copyFrequency[l]){
@@ -70,6 +70,10 @@ if (args(0) === '/encode') {
 else {
     WScript.Echo('wrong arguments!');
 }
+
+
+
+
 
 
 
