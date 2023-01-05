@@ -1,4 +1,5 @@
 //cscript huffman1.js /encode или /decode /alphabet
+
 var args = WScript.Arguments;
 if (args.count() > 1 && args(1).indexOf('/alphabet') !== -1) { //проверка на аргументы
     var alphabetAndFrequencyNeed = true;
@@ -37,10 +38,14 @@ if (args(0) === '/encode') {
         characterCode[i] = "";
         i++;
     }
-    /*for (var y = 0; y < alphabet.length; y++) {
-        WScript.Echo(alphabet[y] + " " + frequency[y]);
-    }*/
-    /*while (copyAlphabet.length !== 2){    //начинаем заполнять массив кодов символов
+    for (var y = 0; y < alphabet.length; y++) {
+        WScript.Echo(alphabet[y] + " - " + frequency[y]);
+    }
+    var copyAlphabet = alphabet.reverse(), copyFrequency = frequency.reverse();
+    for (var u = 0; u < alphabet.length; u++) {
+        WScript.Echo(copyAlphabet[u] + " - " + copyFrequency[u]);
+        }
+    while (copyAlphabet.length !== 2){    //начинаем заполнять массив кодов символов
         var orderOfNodesAndFrequency = 0, l = 1;
         for (l; l < copyAlphabet.length; l+=2){
             if (copyFrequency[l-1] <= copyFrequency[l]){
@@ -57,7 +62,7 @@ if (args(0) === '/encode') {
             copyFrequency.splice(l, 1);
             orderOfNodesAndFrequency++;
         }
-    }*/
+    }
 
 }
 else {
